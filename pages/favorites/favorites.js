@@ -1,0 +1,1 @@
+Page({data:{favorites:[]},onShow(){this.setData({favorites:wx.getStorageSync("favoriteCities")||[]})},remove(e){const city=e.currentTarget.dataset.city;const favorites=this.data.favorites.filter(v=>v!==city);wx.setStorageSync("favoriteCities",favorites);this.setData({favorites})}});
