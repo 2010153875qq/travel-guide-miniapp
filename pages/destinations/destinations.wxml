@@ -1,0 +1,1 @@
+<view class="container"><view class="heading">🧭 目的地推荐</view><view wx:for="{{cities}}" wx:key="name" class="card"><view><text class="name">{{item.name}}</text><text class="desc">{{item.desc}}</text></view><button size="mini" data-city="{{item.name}}" bindtap="toggle">{{favorites.indexOf(item.name)>=0?'取消收藏':'收藏'}}</button></view><view class="tip">内容为示例简介，后续添加详细攻略和导航。</view></view>
