@@ -1,0 +1,11 @@
+page { background: #f4f8ff; }
+.container { padding: 30rpx; }
+.banner { background: linear-gradient(135deg, #1677ff, #55c4ff); border-radius: 30rpx; padding: 65rpx 35rpx; margin-bottom: 35rpx; }
+.title { display: block; color: white; font-size: 48rpx; font-weight: bold; }
+.subtitle { display: block; color: #eaf6ff; font-size: 27rpx; margin-top: 20rpx; }
+.search { background: white; border-radius: 20rpx; padding: 28rpx; margin-bottom: 40rpx; }
+.section-title { font-size: 36rpx; font-weight: bold; margin-bottom: 25rpx; }
+.city-card { background: white; border-radius: 22rpx; padding: 35rpx; margin-bottom: 22rpx; box-shadow: 0 6rpx 20rpx rgba(0,0,0,0.05); }
+.city-name { display: block; font-size: 34rpx; font-weight: bold; }
+.city-desc { display: block; color: #888; font-size: 26rpx; margin-top: 12rpx; }
+.planner-btn { margin-top: 40rpx; background: #1677ff; color: white; border-radius: 20rpx; }
