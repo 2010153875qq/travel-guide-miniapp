@@ -1,0 +1,15 @@
+{
+  "appid": "wxb70e4adf8d466015",
+  "projectname": "travel-guide-miniapp",
+  "compileType": "miniprogram",
+  "miniprogramRoot": "./",
+  "setting": {
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": true,
+    "urlCheck": true
+  },
+  "simulatorType": "wechat",
+  "libVersion": "3.7.1"
+}
