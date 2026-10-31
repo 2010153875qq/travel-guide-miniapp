@@ -1,8 +1,8 @@
-
 {
   "pages": [
     "pages/index/index",
     "pages/destinations/destinations",
+    "pages/detail/detail",
     "pages/planner/planner",
     "pages/favorites/favorites"
   ],

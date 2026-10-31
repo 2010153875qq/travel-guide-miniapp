@@ -1,0 +1,7 @@
+<view wx:if="{{city}}" class="container">
+  <view class="hero"><text class="name">{{city.name}}</text><text class="tag">{{city.tag}}</text><text class="desc">{{city.desc}}</text></view>
+  <view class="section"><view class="section-title">推荐体验</view><view wx:for="{{city.highlights}}" wx:key="*this" class="highlight"><text class="dot">●</text><text>{{item}}</text></view></view>
+  <view class="section"><view class="section-title">参考位置</view><text class="address">{{city.address}}</text><button class="map-btn" bindtap="openMap">📍 打开微信地图</button></view>
+  <view class="actions"><button class="primary" bindtap="goPlanner">✨ 用它生成行程</button><button bindtap="toggleFavorite">{{saved ? '取消收藏' : '❤️ 收藏目的地'}}</button></view>
+  <view class="tip">以上为旅行规划参考，不代表实时营业、交通或价格信息。</view>
+</view>

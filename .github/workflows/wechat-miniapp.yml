@@ -1,16 +1,12 @@
 name: WeChat Mini Program CI
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/wechat-miniapp.yml'
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version for the uploaded development build'
+        description: "Version for the uploaded development build"
         required: true
-        default: '0.1.0'
+        default: "0.1.0"
 
 jobs:
   upload:
@@ -23,18 +19,20 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: "22"
       - name: Validate project structure
         run: |
-          node - <<'NODE'
-          const fs = require('fs');
-          const cfg = JSON.parse(fs.readFileSync('app.json', 'utf8'));
-          for(const name of cfg.pages) {
-            for(const ext of ['js','wxml','wxss']) {
-              if(!fs.existsSync(name+'.'+ext)) throw Error('Missing '+name+'.'+ext);
+          node - <<"NODE"
+          const fs = require("fs");
+          const cfg = JSON.parse(fs.readFileSync("app.json", "utf8"));
+          for (const name of cfg.pages) {
+            for (const ext of ["js", "wxml", "wxss"]) {
+              if (!fs.existsSync(name + "." + ext)) throw Error("Missing " + name + "." + ext);
             }
           }
-          console.log('All configured pages exist');
+          const project = JSON.parse(fs.readFileSync("project.config.json", "utf8"));
+          if (!project.appid || project.appid === "touristappid") throw Error("Use a real mini program AppID");
+          console.log("All configured pages exist for " + project.appid);
           NODE
       - name: Install official WeChat CI
         run: npm install --no-save --ignore-scripts miniprogram-ci
@@ -43,19 +41,25 @@ jobs:
           WECHAT_UPLOAD_KEY: ${{ secrets.WECHAT_UPLOAD_KEY }}
           UPLOAD_VERSION: ${{ inputs.version }}
         run: |
-          node - <<'NODE'
-          const fs=require('fs');const os=require('os');const path=require('path');
-          const ci=require('miniprogram-ci');
-          (async()=>{
-            if(!process.env.WECHAT_UPLOAD_KEY) throw Error('Missing WECHAT_UPLOAD_KEY repository secret');
-            const appid=JSON.parse(fs.readFileSync('project.config.json','utf8')).appid;
-            const dir=fs.mkdtempSync(path.join(os.tmpdir(),'wxci-'));
-            const key=path.join(dir,'upload.key');
-            fs.writeFileSync(key,process.env.WECHAT_UPLOAD_KEY.replace(/\\n/g,'\n'),{mode:0o600});
-            try{
-              const project=new ci.Project({appid:appid,type:'miniProgram',projectPath:process.cwd(),privateKeyPath:key,ignores:['node_modules/**/*','.github/**/*']});
-              await ci.upload({project,version:process.env.UPLOAD_VERSION||'0.1.0',desc:'旅游攻略小程序开发测试版',setting:{es6:true,minify:true,minifyJS:true,minifyWXML:true,minifyWXSS:true}});
-              console.log('Uploaded successfully. Continue with WeChat public platform to configure experience build.');
-            }finally{fs.rmSync(dir,{recursive:true,force:true})}
-          })().catch(e=>{console.error(e.message);process.exit(1)});
+          node - <<"NODE"
+          const fs = require("fs");
+          const os = require("os");
+          const path = require("path");
+          const ci = require("miniprogram-ci");
+          (async () => {
+            if (!process.env.WECHAT_UPLOAD_KEY) throw Error("Missing WECHAT_UPLOAD_KEY repository secret");
+            const appid = JSON.parse(fs.readFileSync("project.config.json", "utf8")).appid;
+            const keyText = process.env.WECHAT_UPLOAD_KEY.replace(/\\n/g, "\n").replace(/\r\n?/g, "\n").trim() + "\n";
+            if (!/BEGIN (RSA )?PRIVATE KEY/.test(keyText)) throw Error("WECHAT_UPLOAD_KEY is not a PEM private key");
+            const dir = fs.mkdtempSync(path.join(os.tmpdir(), "wxci-"));
+            const key = path.join(dir, "upload.key");
+            fs.writeFileSync(key, keyText, { mode: 0o600 });
+            try {
+              const project = new ci.Project({ appid, type: "miniProgram", projectPath: process.cwd(), privateKeyPath: key, ignores: ["node_modules/**/*", ".github/**/*"] });
+              await ci.upload({ project, version: process.env.UPLOAD_VERSION || "0.1.0", desc: "趣游旅行攻略开发测试版", setting: { es6: true, minify: true, minifyJS: true, minifyWXML: true, minifyWXSS: true } });
+              console.log("Uploaded successfully.");
+            } finally {
+              fs.rmSync(dir, { recursive: true, force: true });
+            }
+          })().catch(e => { console.error(e.stack || e.message); process.exit(1); });
           NODE

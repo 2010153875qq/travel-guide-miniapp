@@ -1,9 +1,15 @@
 <view class="container">
-<view class="banner"><text class="title">🌍 趣游旅行攻略</text><text class="subtitle">发现世界，开启美好旅程</text></view>
-<view class="search"><input placeholder="搜索你想去的城市" bindinput="onSearchInput"/></view>
-<view class="section-title">🔥 热门旅游城市</view>
-<view class="city-card" wx:for="{{cities}}" wx:key="id" data-city="{{item.name}}" bindtap="openCity"><text class="city-name">{{item.name}}</text><text class="city-desc">{{item.desc}}</text></view>
-<button class="planner-btn" bindtap="goPlanner">✨ 开始规划我的旅行</button>
-<button bindtap="goDestinations">🧭 目的地与收藏</button>
-<button bindtap="goFavorites">❤️ 查看我的收藏</button>
+  <view class="banner">
+    <text class="title">🌍 趣游旅行攻略</text>
+    <text class="subtitle">发现世界，开启美好旅程</text>
+  </view>
+  <view class="search"><input value="{{searchText}}" placeholder="搜索你想去的城市" bindinput="onSearchInput" /></view>
+  <view class="section-title">🔥 热门旅游城市</view>
+  <view wx:if="{{!filteredCities.length}}" class="empty">没有找到相关目的地，换个关键词试试。</view>
+  <view wx:for="{{filteredCities}}" wx:key="id" class="city-card" data-id="{{item.id}}" bindtap="openCity">
+    <view><text class="city-name">{{item.name}}</text><text class="city-tag">{{item.tag}}</text><text class="city-desc">{{item.desc}}</text></view>
+    <text class="arrow">›</text>
+  </view>
+  <button class="planner-btn" bindtap="goPlanner">✨ 开始规划我的旅行</button>
+  <view class="actions"><button bindtap="goDestinations">🧭 目的地</button><button bindtap="goFavorites">❤️ 我的收藏</button></view>
 </view>

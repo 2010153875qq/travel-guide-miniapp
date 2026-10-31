@@ -1,1 +1,8 @@
-<view class="container"><view class="heading">🧭 目的地推荐</view><view wx:for="{{cities}}" wx:key="name" class="card"><view><text class="name">{{item.name}}</text><text class="desc">{{item.desc}}</text></view><button size="mini" data-city="{{item.name}}" bindtap="toggle">{{item.saved?'取消收藏':'收藏'}}</button></view><view class="tip">内容为示例简介，后续添加详细攻略和导航。</view></view>
+<view class="container">
+  <view class="heading">🧭 目的地推荐</view>
+  <view wx:for="{{cities}}" wx:key="id" class="card" data-id="{{item.id}}" bindtap="openDetail">
+    <view class="copy"><text class="name">{{item.name}}</text><text class="tag">{{item.tag}}</text><text class="desc">{{item.desc}}</text></view>
+    <button size="mini" data-city="{{item.id}}" catchtap="toggle">{{item.saved ? '已收藏' : '收藏'}}</button>
+  </view>
+  <view class="tip">攻略内容为本地示例数据；开放时间、交通和费用请出行前核实。</view>
+</view>

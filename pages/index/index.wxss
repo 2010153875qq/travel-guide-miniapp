@@ -1,11 +1,16 @@
 page { background: #f4f8ff; }
 .container { padding: 30rpx; }
-.banner { background: linear-gradient(135deg, #1677ff, #55c4ff); border-radius: 30rpx; padding: 65rpx 35rpx; margin-bottom: 35rpx; }
+.banner { background: linear-gradient(135deg, #1677ff, #55c4ff); border-radius: 30rpx; padding: 65rpx 35rpx; margin-bottom: 35rpx; box-shadow: 0 14rpx 30rpx rgba(22,119,255,.18); }
 .title { display: block; color: white; font-size: 48rpx; font-weight: bold; }
 .subtitle { display: block; color: #eaf6ff; font-size: 27rpx; margin-top: 20rpx; }
-.search { background: white; border-radius: 20rpx; padding: 28rpx; margin-bottom: 40rpx; }
+.search { background: white; border-radius: 20rpx; padding: 28rpx; margin-bottom: 40rpx; box-shadow: 0 5rpx 18rpx rgba(31,67,120,.05); }
 .section-title { font-size: 36rpx; font-weight: bold; margin-bottom: 25rpx; }
-.city-card { background: white; border-radius: 22rpx; padding: 35rpx; margin-bottom: 22rpx; box-shadow: 0 6rpx 20rpx rgba(0,0,0,0.05); }
+.city-card { background: white; border-radius: 22rpx; padding: 30rpx; margin-bottom: 22rpx; box-shadow: 0 6rpx 20rpx rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; }
 .city-name { display: block; font-size: 34rpx; font-weight: bold; }
-.city-desc { display: block; color: #888; font-size: 26rpx; margin-top: 12rpx; }
-.planner-btn { margin-top: 40rpx; background: #1677ff; color: white; border-radius: 20rpx; }
+.city-tag { display: block; color: #1677ff; font-size: 24rpx; margin-top: 10rpx; }
+.city-desc { display: block; color: #667085; font-size: 25rpx; margin-top: 10rpx; }
+.arrow { color: #1677ff; font-size: 48rpx; padding-left: 18rpx; }
+.planner-btn { margin-top: 40rpx; background: #1677ff; color: white; }
+.actions { display: flex; gap: 18rpx; margin-top: 18rpx; }
+.actions button { flex: 1; margin: 0; background: white; color: #1677ff; }
+.empty { background: white; border-radius: 20rpx; color: #667085; padding: 50rpx 25rpx; text-align: center; }
