@@ -24,3 +24,14 @@
 仓库的 GitHub Actions 使用 `miniprogram-ci` 上传开发版。上传私钥只放在 GitHub 仓库 Settings → Secrets and variables → Actions → `WECHAT_UPLOAD_KEY`，不要提交到代码。
 
 如果出现 `20002 generate local signature fail`，通常是私钥与 AppID 不匹配、私钥已失效或小程序后台没有开启该 IP 的上传权限。请在微信公众平台重新下载与当前 AppID 对应的上传密钥，完整粘贴到 `WECHAT_UPLOAD_KEY`，然后重新运行 Actions；旧密钥不要继续使用。
+
+
+## GitHub Actions 上传失败：invalid ip（2026-10-31 实际日志）
+
+- 成功运行 [41190727846](https://github.com/2010153875qq/travel-guide-miniapp/actions/runs/41190727846) 完成了版本 `0.1.0` 的上传。
+- 后续失败运行 [41192158175](https://github.com/2010153875qq/travel-guide-miniapp/actions/runs/41192158175) 在上传 `0.1.1` 时收到微信服务端 `20003 / errCode -10008 / invalid ip: 13.83.235.208`。本地项目检查、依赖安装与编译均已通过，失败并非小程序代码编译错误。
+- **需要在微信公众平台中核查该 AppID 的代码上传 IP 白名单设置**，将实际可信的上传服务出口 IP 按平台要求授权；具体入口及规则以微信公众平台当前界面为准。不要关闭安全控制或将所有来源无限制放行。
+- **不要把失败日志中的 `13.83.235.208` 当作固定 IP**。GitHub 官方托管的 `ubuntu-latest` 运行器出口地址会变化；如果后台只允许固定 IP，考虑使用自己管理、具备固定出口 IP 的安全构建环境。
+- 此类报错通常不需要更换 `WECHAT_UPLOAD_KEY`：此前同一上传流程已经成功。只有出现明确的密钥失效、签名或 AppID 不匹配错误时，才按私钥问题排查。
+- 完成后台 IP 授权后，打开仓库 **Actions → WeChat Mini Program CI → Run workflow**，输入新的版本号重跑，核对日志中的 `Uploaded successfully.`。成功上传仅表示上传开发版，还需要在微信后台配置体验成员、真机测试及后续审核发布。
+- GitHub Actions 现在会在识别 `invalid ip` 时给出明确的错误注解；它只改善诊断，不会绕过微信服务端限制。
