@@ -58,6 +58,12 @@ jobs:
               const project = new ci.Project({ appid, type: "miniProgram", projectPath: process.cwd(), privateKeyPath: key, ignores: ["node_modules/**/*", ".github/**/*"] });
               await ci.upload({ project, version: process.env.UPLOAD_VERSION || "0.1.0", desc: "趣游旅行攻略开发测试版", setting: { es6: true, minify: true, minifyJS: true, minifyWXML: true, minifyWXSS: true } });
               console.log("Uploaded successfully.");
+            } catch (e) {
+              const message = String(e && e.message || e);
+              if (/invalid ip|errCode["\s:]+-10008/i.test(message)) {
+                console.error("::error title=WeChat CI IP rejected::微信后台拒绝当前 GitHub Actions 出口 IP。请在微信公众平台检查小程序代码上传 IP 白名单，允许可信且稳定的 CI 出口地址；GitHub 托管运行器的出口 IP 可能变化。详见 README。");
+              }
+              throw e;
             } finally {
               fs.rmSync(dir, { recursive: true, force: true });
             }
